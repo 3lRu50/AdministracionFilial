@@ -50,7 +50,7 @@ public abstract class Persona {
 	
 	
 	///utiles
-	private static void stringValido(String tipo, String entrada){
+	protected static void stringValido(String tipo, String entrada){
 		if(entrada == null || entrada.trim().isEmpty())
 				throw new IllegalArgumentException("ERROR: ingrese una cadena de caracteres que no vacía para "+ tipo + " ("+ entrada +")");
 	}
