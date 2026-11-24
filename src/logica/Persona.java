@@ -7,12 +7,10 @@ package logica;
  * @author Grar2
  *
  */
-public class Persona {
+public abstract class Persona {
 	private String nombre;
 	private CarnetIdentidad carnetId;
 	private String direccion;
-	
-	public Persona(){}
 	
 	
 	public Persona(String carnetId, String nombre, String direccion){
