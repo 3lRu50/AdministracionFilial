@@ -22,6 +22,8 @@ public class PersonaTestCase {
 		p = null;
 	}
 
+	
+	
 	@Test
 	public void nombreNull() {
 		try{
@@ -29,7 +31,7 @@ public class PersonaTestCase {
 			fail("No deberia llegar a este punto");
 		}
 		catch(IllegalArgumentException e){
-			assertEquals("ERROR: ingrese un parametro nombre valido (null)", e.getMessage());
+			assertEquals("ERROR: ingrese una cadena de caracteres que no vacía para nombre (null)", e.getMessage());
 		}
 	}
 	
@@ -40,11 +42,26 @@ public class PersonaTestCase {
 			fail("No deberia llegar a este punto");
 		}
 		catch(IllegalArgumentException e){
-			assertEquals("ERROR: ingrese un parametro nombre valido ()", e.getMessage());
+			assertEquals("ERROR: ingrese una cadena de caracteres que no vacía para nombre ()", e.getMessage());
 		}
 	}
 
-	
-	
+	@Test
+	public void nombreEspaciado() {
+		try{
+			p.setNombre("   ");
+			fail("No deberia llegar a este punto");
+		}
+		catch(IllegalArgumentException e){
+			assertEquals("ERROR: ingrese una cadena de caracteres que no vacía para nombre (   )", e.getMessage());
+		}
+	}
+
+	@Test
+	public void nombreTildes() {
+			p.setNombre("áéíóúüÁÉÍÓÚÜñÑ");
+			assertTrue(true);
+	}
+
 	
 }
