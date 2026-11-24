@@ -12,8 +12,6 @@ public abstract class Persona {
 	private CarnetIdentidad carnetId;
 	private String direccion;
 	
-	public Persona(){}
-	
 	
 	public Persona(String carnetId, String nombre, String direccion){
 		setNombre(nombre);
