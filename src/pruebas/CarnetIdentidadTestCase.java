@@ -1,104 +1,132 @@
 package pruebas;
 
 import static org.junit.Assert.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import org.junit.Test;
 import logica.CarnetIdentidad;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 public class CarnetIdentidadTestCase {
-	CarnetIdentidad c;
 
-	@Before
-	public void setUp() throws Exception {
-	}
+	// metodo para fabricar un carnet de 11 digitos segun una fecha
+	private String generarCarnetDesdeFecha(LocalDate fecha) {
+		String ultimosCuatroDigitos = "2356";
+		String yyMMdd = fecha.format(DateTimeFormatter.ofPattern("yyMMdd"));
+		int anio = fecha.getYear();
+		char digitoSiglo;
 
-	@After
-	public void tearDown() throws Exception {
-		c = null;
-	}
+		if (anio >= 1800 && anio <= 1899) 
+			digitoSiglo = '9';
+		else if (anio >= 1900 && anio <= 1999)
+			digitoSiglo = '0'; 
+		else if (anio >= 2000 && anio <= 2099)
+			digitoSiglo = '6'; 
+		else
+			throw new IllegalArgumentException("Año fuera de rango soportado por el CI cubano: " + anio);
+		
 
-	
-	
-	
-	
-	@Test
-	public void carnetNull() {
-		try{
-			c = new CarnetIdentidad(null);
-			fail("no deberia llegar a este lugar");
-		}
-		catch(IllegalArgumentException e){
-			assertTrue(true);
-		}
+		return yyMMdd + digitoSiglo + ultimosCuatroDigitos;
 	}
-	
+	//validos
 	@Test
-	public void carnetVacio() {
-		try{
-			c = new CarnetIdentidad("");
-			fail("no deberia llegar a este lugar");
-		}
-		catch(IllegalArgumentException e){
-			assertTrue(true);
-		}
-	}
-	
-	
-	@Test
-	public void carnet12Numeros() {
-		try{
-			c = new CarnetIdentidad("123456789012");
-			fail("no deberia llegar a este lugar");
-		}
-		catch(IllegalArgumentException e){
-			assertTrue(true);
-		}
-	}
-	
-	@Test
-	public void carnet10Numeros() {
-		try{
-			c = new CarnetIdentidad("1234567890");
-			fail("no deberia llegar a este lugar");
-		}
-		catch(IllegalArgumentException e){
-			assertTrue(true);
-		}
-	}
-	
-	@Test
-	public void carnetCorrecto1() {
-		c = new CarnetIdentidad("06020483840");
-		assertTrue(true);
-	}
-	
-	@Test
-	public void carnetCorrecto2() {
-		c = new CarnetIdentidad("66011726807");
-		assertTrue(true);
+	public void testCarnetSigloXXValido() {
+		String ci = "95051212345"; // 12/05/1995
+		CarnetIdentidad carnet = new CarnetIdentidad(ci);
+		assertEquals(ci, carnet.getCarnetIdentidad());
 	}
 
 	@Test
-	public void carnetDiaDespues() {
-		try{
-			c = new CarnetIdentidad("2611256239");
-			fail("no deberia llegar a este lugar");
-		}
-		catch(IllegalArgumentException e){
-			assertTrue(true);
-		}
+	public void testCarnetSigloXXIValido() {
+		String ci = "04112063456"; // 20/11/2004
+		CarnetIdentidad carnet = new CarnetIdentidad(ci);
+		assertEquals(ci, carnet.getCarnetIdentidad());
 	}
-	
+
 	@Test
-	public void carnetHoy() {
-		try{
-			c = new CarnetIdentidad("2611246239");
-			fail("no deberia llegar a este lugar");
-		}
-		catch(IllegalArgumentException e){
-			assertTrue(true);
-		}
+	public void testCarnetAnioBisiestoValido() {
+		String ci = "00022962345"; // 29/02/2000
+		CarnetIdentidad carnet = new CarnetIdentidad(ci);
+		assertEquals(ci, carnet.getCarnetIdentidad());
+	}
+
+	//16 años
+	@Test
+	public void testEdadExacta16AniosHoyValido() {
+		LocalDate hoyHace16Anios = LocalDate.now().minusYears(16);
+		String ci = generarCarnetDesdeFecha(hoyHace16Anios);
+
+		CarnetIdentidad carnet = new CarnetIdentidad(ci);
+		assertEquals(ci, carnet.getCarnetIdentidad());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testEdad16AniosManianaInvalido() {
+		LocalDate mananaHace16Anios = LocalDate.now().minusYears(16).plusDays(1);
+		String ci = generarCarnetDesdeFecha(mananaHace16Anios);
+
+		new CarnetIdentidad(ci);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testMenorDe16AniosInvalido() {
+		LocalDate hace10Anios = LocalDate.now().minusYears(10);
+		String ci = generarCarnetDesdeFecha(hace10Anios);
+
+		new CarnetIdentidad(ci);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSigloXXIFuturaFechaInvalida() {
+		new CarnetIdentidad("99010161234");
+	}
+
+
+
+	//bien escrito
+	@Test(expected = IllegalArgumentException.class)
+	public void testCarnetNulo() {
+		new CarnetIdentidad(null);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCarnetVacio() {
+		new CarnetIdentidad("   ");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCarnetMenosDe11Digitos() {
+		new CarnetIdentidad("9505121234"); // 10 dígitos
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCarnetMasDe11Digitos() {
+		new CarnetIdentidad("950512123456"); // 12 dígitos
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCarnetConLetras() {
+		new CarnetIdentidad("9505121234A");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testCarnetConEspaciosInternos() {
+		new CarnetIdentidad("950512 2345");
+	}
+
+
+	//fuera limite calendario
+	@Test(expected = IllegalArgumentException.class)
+	public void testMesInvalido() {
+		new CarnetIdentidad("95131212345");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testDiaInvalido() {
+		new CarnetIdentidad("95053212345");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFebreroNoBisiestoInvalido() {
+		new CarnetIdentidad("99022912345");
 	}
 }

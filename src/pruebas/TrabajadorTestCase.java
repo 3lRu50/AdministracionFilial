@@ -1,50 +1,73 @@
 package pruebas;
-
 import static org.junit.Assert.*;
-import logica.Trabajador;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import logica.Trabajador;
 
 public class TrabajadorTestCase {
-	Trabajador p;
+	private Trabajador trabajadorValido;
+	private final String CARNET_VALIDO = "95051212345";
+	private final String NOMBRE_VALIDO = "Elena";
+	private final String DIRECCION_VALIDA = "Avenida 5ta #1202, Playa";
+	private final double SALARIO_VALIDO = 4500.50;
+	private final double DELTA = 0.001; // tolerancia ya que double no es preciso
 
 	@Before
-	public void setUp() throws Exception {
-		p = new Trabajador();
+	public void setUp() {
+		trabajadorValido = new TrabajadorTest(CARNET_VALIDO, NOMBRE_VALIDO, DIRECCION_VALIDA, SALARIO_VALIDO);
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		p = null;
+	//bien herencia
+	@Test
+	public void nombreCorrecto(){
+		assertEquals(NOMBRE_VALIDO, trabajadorValido.getNombre());
+	}
+
+	//salario
+	@Test
+	public void testConstructorYCalcularSalarioValido() {
+		assertEquals(SALARIO_VALIDO, trabajadorValido.calcularSalario(), DELTA);
 	}
 
 	@Test
-	public void salario0() {
-		try{
-			p.setSalario(0);
-			fail("no debe llegar a aqui");
-		}
-		catch(IllegalArgumentException e){
-			assertTrue(true);
-		}
+	public void testSetSalarioBaseValido() {
+		double nuevoSalario = 5200.75;
+		trabajadorValido.setSalarioBase(nuevoSalario);
+		assertEquals(nuevoSalario, trabajadorValido.calcularSalario(), DELTA);
 	}
 
 	@Test
-	public void salarioNeg() {
-		try{
-			p.setSalario(-1);
-			fail("no debe llegar a aqui");
-		}
-		catch(IllegalArgumentException e){
-			assertTrue(true);
-		}
+	public void testSalarioBaseLimiteMinimoPositivo() {
+		trabajadorValido.setSalarioBase(0.01);
+		assertEquals(0.01, trabajadorValido.calcularSalario(), DELTA);
+	}
+	
+
+	// salario invalido
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorSalarioCero() {
+		new TrabajadorTest(CARNET_VALIDO, NOMBRE_VALIDO, DIRECCION_VALIDA, 0.0);
 	}
 
-	@Test
-	public void salarioPos() {
-		p.setSalario(1);
-		assertTrue(true);
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorSalarioNegativo() {
+		new TrabajadorTest(CARNET_VALIDO, NOMBRE_VALIDO, DIRECCION_VALIDA, -1500.0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetSalarioBaseCero() {
+		trabajadorValido.setSalarioBase(0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetSalarioBaseNegativo() {
+		trabajadorValido.setSalarioBase(-0.01);
 	}
 }
+
+
+class TrabajadorTest extends Trabajador {
+		public TrabajadorTest(String carnetId, String nombre, String direccion, double salarioBase) {
+			super(carnetId, nombre, direccion, salarioBase);
+		}
+	}
