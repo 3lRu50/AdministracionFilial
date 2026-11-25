@@ -16,6 +16,9 @@ public class NoDocente extends Trabajador {
 	}
 
 	public final void setAreaLaboral(AreaLaboral areaLaboral) {
+		if(areaLaboral == null)
+			throw new IllegalArgumentException("ERROR: fue ingresada una instancia null de AreaLaboral");
+		
 		this.areaLaboral = areaLaboral;
 	}	
 }
