@@ -29,4 +29,9 @@ public class PlanEstudio {
 		
 		return asignaturas;
 	}
+	public String getNombre(){
+		
+		return nombre;
+	
+	}
 }

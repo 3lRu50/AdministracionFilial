@@ -7,12 +7,10 @@ package logica;
  * @author Grar2
  *
  */
-public class Persona {
+public abstract class Persona {
 	private String nombre;
-	private String carnetId;
+	private CarnetIdentidad carnetId;
 	private String direccion;
-	
-	public Persona(){}
 	
 	
 	public Persona(String carnetId, String nombre, String direccion){
@@ -26,17 +24,17 @@ public class Persona {
 	
 	public final void setNombre(String nombre) {
 		stringValido("nombre", nombre);
-		if(!nombre.matches("\\[a-zA-Z]+"))
+		if(!nombre.matches("\\[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+"))
 			throw new IllegalArgumentException("ERROR: el nombre debe tener solo letras ("+ nombre + ")");
 		
 		this.nombre = nombre;
 	}
 	
-	public final String getCarnetId() { return carnetId; }
+	public final String getCarnetId() { return carnetId.getCarnetIdentidad(); }
 	
 	
 	public final void setCarnetId(String carnetId) {
-		this.carnetId = carnetId;
+		this.carnetId = new CarnetIdentidad(carnetId);
 	}
 	
 	
@@ -44,8 +42,7 @@ public class Persona {
 	
 	
 	public final void setDireccion(String direccion) {
-		if(direccion == null || direccion.isEmpty())
-			throw new IllegalArgumentException("ERROR: dirección no permitida (" + direccion + ")");
+		stringValido("dirección", direccion);
 		
 		this.direccion = direccion;
 	}
@@ -53,9 +50,9 @@ public class Persona {
 	
 	
 	///utiles
-	private static void stringValido(String tipo, String entrada){
-		if(entrada == null || entrada.isEmpty())
-			throw new IllegalArgumentException("ERROR: ingrese un parametro " + tipo + " valido " + "("+ entrada +")");
+	protected static void stringValido(String tipo, String entrada){
+		if(entrada == null || entrada.trim().isEmpty())
+				throw new IllegalArgumentException("ERROR: ingrese una cadena de caracteres que no vacía para "+ tipo + " ("+ entrada +")");
 	}
 	
 }
