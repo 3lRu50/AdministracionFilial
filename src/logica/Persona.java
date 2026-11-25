@@ -24,7 +24,8 @@ public abstract class Persona {
 	
 	public final void setNombre(String nombre) {
 		stringValido("nombre", nombre);
-		if(!nombre.matches("\\[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+"))
+		nombre = nombre.trim();
+		if(!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]+"))
 			throw new IllegalArgumentException("ERROR: el nombre debe tener solo letras ("+ nombre + ")");
 		
 		this.nombre = nombre;
