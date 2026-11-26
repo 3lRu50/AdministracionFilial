@@ -5,11 +5,10 @@ import enums.CategoriaCientifica;
 import enums.CategoriaDocente;
 
 public class Profesor extends Trabajador {
-	private String  centroLaboral;
-	private String organismo;
 	private CategoriaCientifica catCientifica;
 	private CategoriaDocente catDocente;
 	private CargoConsejoDirectivo cargo;
+	private CentroLaboral centro;
 
 	public Profesor(String carnetId, String nombre, String direccion, double salarioBase, CategoriaCientifica catCientifica,CategoriaDocente catDocente,
 			String organismo, String centroLaboral) {
@@ -18,8 +17,7 @@ public class Profesor extends Trabajador {
 		
 		setCatDocente(catDocente);
 		setCatCientifica(catCientifica);
-		setCentroLaboral(centroLaboral);
-		setOrganismo(organismo);
+		centro = new CentroLaboral(centroLaboral, organismo);
 	}
 	
 	
@@ -29,47 +27,27 @@ public class Profesor extends Trabajador {
 	
 	
 	public final String getCentroLaboral() {
-		return centroLaboral;
+		return centro.getCentroLaboral();
 	}
-
-
-
 
 
 
 
 	public final void setCentroLaboral(String centroLaboral) {
-		stringValido("centro laboral", centroLaboral);
-		
-		this.centroLaboral = centroLaboral;
+		centro.setCentroLaboral(centroLaboral);
 	}
-
-
-
-
-
-
-
-
-
 
 
 
 
 	public final String getOrganismo() {
-		return organismo;
+		return centro.getOrganismo();
 	}
 
 
 
-
-
-
-
 	public final void setOrganismo(String organismo) {
-		stringValido("organismo", organismo);
-		
-		this.organismo = organismo;
+		centro.setOrganismo(organismo);
 	}
 
 
