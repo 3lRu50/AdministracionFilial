@@ -10,14 +10,13 @@ public class Asignatura {
 	private int semestre;
 	private int horasLectivas;
 
-	//contador estático
-	private static final AtomicInteger contadorId = new AtomicInteger(0);
+	private static int contador = 0;
 	
 	public Asignatura(String nombre, int anio, int semestre, int horas){
 	
-		int numeroId = contadorId.incrementAndGet();
 		
-		this.id = String.format("ASG-%02d", numeroId);
+		
+		this.id = String.format("ASG-%d", ++contador);
 		setNombre(nombre);
 		setAnio(anio);
 		setSemestre(semestre);
