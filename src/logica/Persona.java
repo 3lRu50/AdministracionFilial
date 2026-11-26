@@ -50,6 +50,12 @@ public abstract class Persona {
 	
 	
 	
+	public final boolean carnetEs(String carnet){
+		return carnetId.equals(carnet);
+	}
+	
+	
+	
 	///utiles
 	protected static void stringValido(String tipo, String entrada){
 		if(entrada == null || entrada.trim().isEmpty())

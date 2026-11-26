@@ -72,4 +72,12 @@ public final class CarnetIdentidad {
 		return numero;
 	}
 	
+	//no sobreescribe a equals de Object
+	public boolean equals(String carnet){
+		if(carnet == null)
+			throw new IllegalArgumentException("ERROR: se trato de comparar el carnet con un objeto null");
+		
+		return carnet.equals(numero);
+	}
+	
 }
