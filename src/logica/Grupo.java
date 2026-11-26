@@ -1,6 +1,6 @@
 package logica;
 
-
+import java.util.ArrayList;
 
 public class Grupo {
 
@@ -30,13 +30,7 @@ public class Grupo {
 	}
 
 	public void agregarEstudiante(Estudiante e){
-
-		if(e == null)
-			throw new IllegalArgumentException("Error.El estudiante no puede ser nulo");
-
-		if (!estudiantes.contains(e)) {
 			estudiantes.add(e);
-		}
 	}
 
 	public int getAnio(){
