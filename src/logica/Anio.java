@@ -54,10 +54,11 @@ public class Anio {
 	public void agregarEstudiante(String carnetId, String nombre, String direccion, String centroLaboral, String organismo, String arrastre1, String arrastre2){
 
 		Estudiante e = new Estudiante(carnetId,nombre,direccion,centroLaboral,organismo);
-		estudiantes.add(e);	
-		agregarGrupo(e);
-
 		agregarEnArrastre(e,arrastre1,arrastre2);
+		agregarGrupo(e);
+		estudiantes.add(e);	
+		
+
 	}
 
 	private void agregarGrupo(Estudiante e){
@@ -92,11 +93,18 @@ public class Anio {
 					throw new IllegalArgumentException("Error.Las asignaturas deben existir en el plan de estudio");
 				}
 			}else if(arr1 != null){
-				semestres.get(plan.getSemestre(arr1) - 1).agregarEstudianteArrastres(e, arr1);
+				if(plan.existeAsignatura(arr1)){
+					semestres.get(plan.getSemestre(arr1) - 1).agregarEstudianteArrastres(e, arr1);
+				}else{
+					throw new IllegalArgumentException("Error.La asignatura debe existir en el plan de estudio");
+				}
 			}else{
-				semestres.get(plan.getSemestre(arr2) - 1).agregarEstudianteArrastres(e, arr2);
+				if(plan.existeAsignatura(arr2)){
+					semestres.get(plan.getSemestre(arr2) - 1).agregarEstudianteArrastres(e, arr2);
+				}else{
+					throw new IllegalArgumentException("Error.La asignatura debe existir en el plan de estudio");
+				}
 			}
-
 		}
 	}
 
@@ -105,7 +113,7 @@ public class Anio {
 		boolean encontrado = false;
 		int i;
 		for(i = 0; i < estudiantes.size() && !encontrado; i++){
-			if(e.carnetEs(id))
+			if(estudiantes.get(i).carnetEs(id))
 				encontrado = true;
 		}
 		return encontrado;
