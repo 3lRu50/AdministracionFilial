@@ -47,16 +47,18 @@ public class Semestre {
 	}
 
 
-	public void agregarEstudianteArrastres(Estudiante e, Asignatura a){
+	public void agregarEstudianteArrastres(Estudiante e,String a){
 
-		if(a.getSemestre() == numeroSemestre){
+		PlanEstudio plan = PlanEstudio.getInstancia();
+		
+		if(plan.getSemestre(a) == numeroSemestre){
 
 			boolean agregado = false;
 			int i;
 
 			for(i = 0; i < gruposArrastre.size() && !agregado; i++){
 
-				if(a == (gruposArrastre.get(i)).getAsignatura()){
+				if(a.equals((gruposArrastre.get(i)).getAsignatura())){
 					agregado = true;
 					gruposArrastre.get(i).agregarEstudiante(e);
 				}		
