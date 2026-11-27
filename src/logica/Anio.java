@@ -9,7 +9,7 @@ public class Anio {
 	private  ArrayList<Grupo> grupos;
 	private ArrayList<Semestre> semestres;
 	private ArrayList<PlanificacionDocente> planificaciones;
-	
+
 	public Anio(int numero){
 
 		setAnio(numero);
@@ -51,12 +51,13 @@ public class Anio {
 		}
 	}
 
-	public void agregarEstudiante(String carnetId, String nombre, String direccion, String centroLaboral, String organismo){
+	public void agregarEstudiante(String carnetId, String nombre, String direccion, String centroLaboral, String organismo, String arrastre1, String arrastre2){
 
 		Estudiante e = new Estudiante(carnetId,nombre,direccion,centroLaboral,organismo);
 		estudiantes.add(e);	
 		agregarGrupo(e);
-		agregarEnArrastre(e);
+
+		agregarEnArrastre(e,arrastre1,arrastre2);
 	}
 
 	private void agregarGrupo(Estudiante e){
@@ -73,12 +74,29 @@ public class Anio {
 	}
 
 
-	private void agregarEnArrastre(Estudiante e){
+	private void agregarEnArrastre(Estudiante e, String arr1, String arr2){
 
-		if(e.getArrastre() != null){
-			for(Asignatura a : e.getArrastre()){
-				semestres.get(a.getSemestre()-1).agregarEstudianteArrastres(e, a);
-			}	
+		PlanEstudio plan = PlanEstudio.getInstancia();
+
+		if(arr1 != null || arr2 != null){
+			if(arr1 != null && arr2!= null){
+				if(plan.existeAsignatura(arr1) && plan.existeAsignatura(arr2)){
+					if(plan.getSemestre(arr1) != plan.getSemestre(arr2)){
+						semestres.get(plan.getSemestre(arr1) - 1).agregarEstudianteArrastres(e, arr1);
+						semestres.get(plan.getSemestre(arr2) - 1).agregarEstudianteArrastres(e, arr2);
+					}else{
+						throw new IllegalArgumentException("Error.Las asignaturas deben ser de distinto semestre");
+					}
+
+				}else{
+					throw new IllegalArgumentException("Error.Las asignaturas deben existir en el plan de estudio");
+				}
+			}else if(arr1 != null){
+				semestres.get(plan.getSemestre(arr1) - 1).agregarEstudianteArrastres(e, arr1);
+			}else{
+				semestres.get(plan.getSemestre(arr2) - 1).agregarEstudianteArrastres(e, arr2);
+			}
+
 		}
 	}
 
@@ -92,26 +110,26 @@ public class Anio {
 		}
 		return encontrado;
 	}
-	
+
 	public void crearPlanificacion(Profesor profesor, Asignatura asignatura, Grupo grupo){
-		
+
 		if(profesor == null || asignatura == null || grupo == null)
-		throw new IllegalArgumentException("Error. Debe ingresar todos los datos");
-		
+			throw new IllegalArgumentException("Error. Debe ingresar todos los datos");
+
 		if(asignatura.getAnio() != anioAcademico)
 			throw new IllegalArgumentException("Error. La asignatura no corresponde a este año");
-		
+
 		if(grupo.getAnio() != anioAcademico)
 			throw new IllegalArgumentException("Error. El grupo no corresponde a este año");
-		
+
 		PlanificacionDocente plan = new PlanificacionDocente(profesor,asignatura,grupo);
 		existePlanificacion(plan);
 		planificaciones.add(plan);
-			
+
 	}
-	
+
 	private void existePlanificacion(PlanificacionDocente p){
-		
+
 		for(PlanificacionDocente plan : planificaciones){
 			if(p.getAsignatura() == plan.getAsignatura() && p.getGrupo() == plan.getGrupo() && p.getProfesor() == plan.getProfesor())
 				throw new IllegalArgumentException("Error. Esta planificación ya existe"); 
