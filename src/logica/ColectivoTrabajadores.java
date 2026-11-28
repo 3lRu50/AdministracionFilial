@@ -104,4 +104,15 @@ public class ColectivoTrabajadores {
 			
 		return yaRegistrado;
 	}
+	
+	
+	public ArrayList<Profesor> getProfesores(){
+		ArrayList<Profesor> profes = new ArrayList<>();
+		
+		for(Trabajador profe : trabajadores)
+			if(profe instanceof Profesor)
+				profes.add((Profesor) profe);
+		
+		return profes;
+	}
 }
