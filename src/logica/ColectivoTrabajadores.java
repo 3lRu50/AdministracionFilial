@@ -9,10 +9,6 @@ import enums.CategoriaDocente;
 public class ColectivoTrabajadores {
 	private ArrayList<Trabajador> trabajadores = new ArrayList<>();
 	
-	public ColectivoTrabajadores() {
-	
-	}
-	
 	public double getTotalPagado(){
 		double total = 0;
 		

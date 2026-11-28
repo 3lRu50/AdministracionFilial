@@ -14,7 +14,7 @@ public class Profesor extends Trabajador {
 			String organismo, String centroLaboral) {
 		super(carnetId, nombre, direccion, salarioBase);
 		
-		
+		setCargo(CargoConsejoDirectivo.NINGUNO);
 		setCatDocente(catDocente);
 		setCatCientifica(catCientifica);
 		centro = new CentroLaboral(centroLaboral, organismo);
