@@ -85,4 +85,9 @@ public final class Filial {
 		if(!anioEnRango(anio))
 			throw new IllegalArgumentException("ERROR: el año debe ser un entero entre 1 y 6");
 	}
+
+
+	public ArrayList<Profesor> getProfesores(){
+		return colectivoTrabajadores.getProfesores();
+	}
 }
