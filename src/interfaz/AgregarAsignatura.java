@@ -32,6 +32,7 @@ public class AgregarAsignatura extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private PlanEstudio plan;
+	private Principal padre;
 	private JTextField textHoras;
 	private JComboBox<String> comboBoxSemestre;
 	private JComboBox<String> comboBoxAnios;
@@ -43,7 +44,7 @@ public class AgregarAsignatura extends JDialog {
 
 	public static void main(String[] args){
 	try {
-		AgregarAsignatura dialog = new AgregarAsignatura(PlanEstudio.getInstancia());
+		AgregarAsignatura dialog = new AgregarAsignatura(principal, PlanEstudio.getInstancia());
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 	} catch (Exception e) {
@@ -52,8 +53,9 @@ public class AgregarAsignatura extends JDialog {
 	}	
 	
 	
-	public AgregarAsignatura(PlanEstudio p) {
-		
+	public AgregarAsignatura(Principal pric, PlanEstudio p) {
+		super(princ,true);
+		padre = princ;
 		plan = p;
 		setTitle("Agregar Asignatura");
         setBounds(100, 100, 500, 500);
