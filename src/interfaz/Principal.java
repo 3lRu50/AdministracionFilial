@@ -34,11 +34,15 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 700, 500);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
+		
+		JMenu mnMain = new JMenu("Main");
+		menuBar.add(mnMain);
 		
 		JMenu mnAos = new JMenu("A\u00F1os");
 		menuBar.add(mnAos);
