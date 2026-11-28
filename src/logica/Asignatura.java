@@ -35,7 +35,7 @@ public class Asignatura {
 	public void setNombre(String nombre){
 		
 		stringValido("nombre", nombre);
-		if(!nombre.matches("\\[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ ]+"))
+		if(!nombre.matches("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ ]+"))
 			throw new IllegalArgumentException("ERROR: el nombre debe tener solo letras o números("+ nombre + ")");
 		
 		this.nombre = nombre;

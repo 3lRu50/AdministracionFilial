@@ -23,12 +23,6 @@ public class Grupo {
 	}
 
 
-	public ArrayList<Estudiante> getEstudiantes(){
-
-		return estudiantes;
-
-	}
-
 	public void agregarEstudiante(Estudiante e){
 			estudiantes.add(e);
 	}
