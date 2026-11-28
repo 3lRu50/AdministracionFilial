@@ -3,19 +3,17 @@ package logica;
 
 public class Asignatura {
 
-	private final String id;
 	private String nombre;
 	private int anio;
 	private int semestre;
 	private int horasLectivas;
 
-	private static int contador = 0;
+	
 	
 	public Asignatura(String nombre, int anio, int semestre, int horas){
 	
 		
 		
-		this.id = String.format("ASG-%d", ++contador);
 		setNombre(nombre);
 		setAnio(anio);
 		setSemestre(semestre);
@@ -23,10 +21,7 @@ public class Asignatura {
 		
 	}
 	
-	public String getId(){
-		return id;
-	}
-	
+
 	
 	public String getNombre(){
 		return nombre;
